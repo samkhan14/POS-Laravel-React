@@ -4,6 +4,7 @@ import Login from "./pages/login"; // Replace with your login component path
 import Dashboard from "./pages/dashboard"; // Replace with your dashboard component path
 import { Orders } from "./pages/orders";
 import { Products } from "./pages/products";
+import { Logout } from "./auth/Logout";
 // import Products from "./pages/Products"; // Replace with your products component path
 // import ProductDetails from "./pages/ProductDetails"; // Replace with your product details component path
 // import Customers from "./pages/Customers"; // Replace with your customers component path
@@ -18,6 +19,12 @@ const routes = [
     exact: true, // Ensures it only matches the exact path "/"
     name: "Login", // Optional name for the route
     element: <Login />,
+  },
+  {
+    path: "/logout",
+    exact: true, // Ensures it only matches the exact path "/"
+    name: "Logout", // Optional name for the route
+    element: <Logout />,
   },
   {
     path: "/dashboard",
