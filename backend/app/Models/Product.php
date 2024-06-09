@@ -28,4 +28,15 @@ class Product extends Model
     {
         return $this->belongsTo(Brand::class); // Assuming your Brand model exists
     }
+
+    public function productBatches()
+    {
+        return $this->hasMany(ProductBatch::class);
+    }
+
+    // get total quantity
+    public function getTotalQuantityAttribute()
+    {
+        return $this->productBatches->sum('quantity');
+    }
 }

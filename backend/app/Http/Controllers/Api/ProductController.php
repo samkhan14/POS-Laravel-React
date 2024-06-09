@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProductBatchRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -93,5 +94,24 @@ class ProductController extends Controller
     {
         $product->delete();
         return response()->json(null, 204); // Return empty response with status code 204 (No Content)
+    }
+
+    // add product batch
+    public function addProductBatch(StoreProductBatchRequest $request, Product $product)
+    {
+        $validator = Validator::make($request->all(), [
+            'product_id' => 'required|numeric|' . $product->id,
+            'buying_price' => 'required|numeric|min:0',
+            'selling_price' => 'required|numeric|min:' . $request->buying_price . '|gte:buying_price',
+            'quantity' => 'required|integer|min:0',
+            'import_quantity' => 'required|integer|min:1',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422); // Return validation errors with status code 422
+        }
+
+        $product->update($request->all());
+        return response()->json($product); // Return updated product as JSON
     }
 }
